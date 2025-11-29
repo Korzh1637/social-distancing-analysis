@@ -1,1 +1,44 @@
-
+{
+  "corridor": {
+    "distance_threshold": 1.0,
+    "density_threshold": 8.0,
+    "speed_threshold": 1.5,
+    "violation_duration": 3.0,
+    "description": "Узкое пространство с направленным движением"
+  },
+  "queue": {
+    "distance_threshold": 0.8,
+    "density_threshold": 12.0,
+    "speed_threshold": 0.3,
+    "violation_duration": 10.0,
+    "description": "Очередь с медленным движением"
+  },
+  "open_area": {
+    "distance_threshold": 2.0,
+    "density_threshold": 3.0,
+    "speed_threshold": 2.0,
+    "violation_duration": 2.0,
+    "description": "Открытое пространство с свободным движением"
+  },
+  "elevator": {
+    "distance_threshold": 0.6,
+    "density_threshold": 15.0,
+    "speed_threshold": 0.1,
+    "violation_duration": 15.0,
+    "description": "Лифт - кратковременное сближение допустимо"
+  },
+  "entrance": {
+    "distance_threshold": 0.9,
+    "density_threshold": 10.0,
+    "speed_threshold": 1.0,
+    "violation_duration": 5.0,
+    "description": "Зона входа/выхода с переменным потоком"
+  },
+  "default": {
+    "distance_threshold": 1.5,
+    "density_threshold": 5.0,
+    "speed_threshold": 1.0,
+    "violation_duration": 5.0,
+    "description": "Стандартная зона"
+  }
+}
