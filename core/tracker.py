@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 from deep_sort_realtime.deepsort_tracker import DeepSort
 
 
@@ -92,5 +93,27 @@ class PeopleTracker:
         return display_frame
     
     def _get_color(self, track_id):
-        colors = [(255,0,0), (0,255,0), (0,0,255), (255,255,0), (255,0,255)]
+        colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255),
+                  (0, 255, 255), (128, 0, 0), (0, 128, 0), (0, 0, 128), (128, 128, 0)]
         return colors[track_id % len(colors)]
+    
+    def get_track_history(self, track_id):
+        """Получение истории трека по ID"""
+        return self.tracks_history.get(track_id, {})
+    
+    def clear_old_tracks(self, max_age_frames=100):
+        """Очистка старых треков"""
+        current_tracks = set()
+        for track in self.tracks_history.values():
+            if track['total_frames'] > max_age_frames:
+                continue
+            current_tracks.add(id(track))
+        
+        # Удаляем треки которых нет в current_tracks
+        tracks_to_remove = []
+        for track_id, track_data in self.tracks_history.items():
+            if id(track_data) not in current_tracks:
+                tracks_to_remove.append(track_id)
+        
+        for track_id in tracks_to_remove:
+            del self.tracks_history[track_id]
