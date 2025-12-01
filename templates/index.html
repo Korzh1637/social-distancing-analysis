@@ -329,7 +329,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🤖 Система анализа социальной дистанции</h1>
+            <h1>Система анализа социальной дистанции</h1>
             <p>Интеллектуальный мониторинг соблюдения дистанции в реальном времени</p>
             <div class="status-bar">
                 <span class="status-indicator status-inactive" id="statusIndicator"></span>
@@ -339,7 +339,7 @@
 
         <div class="controls">
             <div class="control-group">
-                <label>📹 Источник видео:</label>
+                <label>Источник видео:</label>
                 <select id="videoSource" onchange="onSourceChange()">
                     <option value="test">🎬 Тестовый режим (рекомендуется)</option>
                     <option value="camera">📷 Веб-камера</option>
@@ -348,7 +348,7 @@
             </div>
 
             <div class="control-group" id="cameraSelector" style="display: none;">
-                <label>📷 Выбор камеры:</label>
+                <label>Выбор камеры:</label>
                 <select id="cameraIndex">
                     <option value="0">Камера 0 (Основная)</option>
                     <option value="1">Камера 1</option>
@@ -357,7 +357,7 @@
             </div>
 
             <div class="control-group" id="videoUploadGroup" style="display: none;">
-                <label>📁 Загрузка видеофайла:</label>
+                <label>Загрузка видеофайла:</label>
                 <input type="file" id="videoFile" accept="video/*">
                 <button class="btn-upload" onclick="uploadVideo()" style="margin-top: 10px;">
                     📤 Загрузить видео
@@ -398,38 +398,38 @@
                 
                 <div class="metric-grid">
                     <div class="metric-card">
-                        <strong>👥 Людей в кадре</strong>
+                        <strong>Людей в кадре</strong>
                         <div class="metric-value" id="peopleCount">0</div>
                     </div>
                     <div class="metric-card">
-                        <strong>🚨 Нарушения дистанции</strong>
+                        <strong>Нарушения дистанции</strong>
                         <div class="metric-value" id="violationsCount">0</div>
                     </div>
                     <div class="metric-card">
-                        <strong>📏 Плотность потока</strong>
+                        <strong>Плотность потока</strong>
                         <div class="metric-value" id="density">0.0 <small>чел/м²</small></div>
                     </div>
                     <div class="metric-card">
-                        <strong>⚠️ Уровень риска</strong>
+                        <strong>Уровень риска</strong>
                         <div class="metric-value" id="riskLevel">Низкий</div>
                     </div>
                     <div class="metric-card">
-                        <strong>🏷️ Тип зоны</strong>
+                        <strong>Тип зоны</strong>
                         <div class="metric-value" id="zoneType">default</div>
                     </div>
                 </div>
 
                 <div class="violations-list">
-                    <h4>🚨 Активные нарушения</h4>
+                    <h4>Активные нарушения</h4>
                     <div id="violationsList">
                         <div class="violation-alert">
-                            ✅ Нарушений не обнаружено
+                            Нарушений не обнаружено
                         </div>
                     </div>
                 </div>
 
                 <div class="events-log">
-                    <h4>📋 Журнал событий</h4>
+                    <h4>Журнал событий</h4>
                     <div id="eventsLog">
                         <div class="event-item">
                             <div class="event-time">Система запущена</div>
@@ -577,7 +577,7 @@
             const formData = new FormData();
             formData.append('video', file);
             
-            showNotification('info', '📤 Загрузка видеофайла...');
+            showNotification('info', 'Загрузка видеофайла...');
             
             fetch('/api/upload_video', {
                 method: 'POST',
@@ -610,7 +610,7 @@
             }
             
             updateStatusIndicator('processing');
-            showNotification('info', '🔄 Запуск обработки видео...');
+            showNotification('info', 'Запуск обработки видео...');
             
             fetch('/api/start_processing', {
                 method: 'POST',
@@ -657,13 +657,13 @@
         }
 
         function testConnection() {
-            showNotification('info', '🔍 Проверка соединения с сервером...');
+            showNotification('info', 'Проверка соединения с сервером...');
             
             fetch('/api/health')
             .then(response => response.json())
             .then(data => {
                 showNotification('success', 
-                    `✅ Сервер работает<br>
+                    `Сервер работает<br>
                      Обработка: ${data.processing ? 'активна' : 'неактивна'}<br>
                      Источник: ${data.video_source || 'не выбран'}`
                 );
@@ -706,9 +706,9 @@
                             div.className = violation.violation_severity === 'critical' ? 
                                 'violation-alert critical-violation' : 'violation-alert';
                             div.innerHTML = `
-                                <strong>👥 ID ${violation.person1} и ${violation.person2}</strong><br>
-                                📏 Расстояние: ${violation.distance.toFixed(2)}м<br>
-                                🕒 Длительность: ${violation.duration ? violation.duration.toFixed(1) + 'с' : 'N/A'}<br>
+                                <strong>ID ${violation.person1} и ${violation.person2}</strong><br>
+                                Расстояние: ${violation.distance.toFixed(2)}м<br>
+                                Длительность: ${violation.duration ? violation.duration.toFixed(1) + 'с' : 'N/A'}<br>
                                 <small>${violation.zone_description || ''}</small>
                             `;
                             violationsList.appendChild(div);
@@ -749,7 +749,7 @@
             // Показываем начальный статус
             testConnection();
             
-            console.log('🚀 Система анализа социальной дистанции инициализирована');
+            console.log('Система анализа социальной дистанции инициализирована');
         });
     </script>
 </body>
