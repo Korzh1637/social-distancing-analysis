@@ -39,43 +39,26 @@ current_metrics = {
     'timestamp': datetime.now().isoformat()
 }
 
-# Импортируем компоненты
-try:
-    from core.detector import PeopleDetector
-    from core.tracker import PeopleTracker
-    from utils.logger import EventLogger, EventType
-    from utils.metrics import MetricsCalculator, RiskLevel
-    components_loaded = True
-    print("✅ Все компоненты успешно загружены")
-except ImportError as e:
-    print(f"❌ Ошибка импорта компонентов: {e}")
-    components_loaded = False
+from core.detector import PeopleDetector
+from core.tracker import PeopleTracker
+from utils.logger import EventLogger, EventType
+from utils.metrics import MetricsCalculator, RiskLevel
 
 def initialize_components():
     global detector, tracker, logger, metrics_calc
     
-    if not components_loaded:
-        print("❌ Компоненты не загружены")
-        return False
-    
     try:
-        print("🔄 Инициализация детектора...")
         detector = PeopleDetector()
-        print("🔄 Инициализация трекера...")
         tracker = PeopleTracker()
-        print("🔄 Инициализация логгера...")
         logger = EventLogger()
-        print("🔄 Инициализация калькулятора метрик...")
         metrics_calc = MetricsCalculator()
-        print("✅ Все компоненты инициализированы")
         return True
     except Exception as e:
-        print(f"❌ Ошибка инициализации компонентов: {e}")
+        print(f"Error: Ошибка инициализации компонентов: {e}")
         import traceback
         traceback.print_exc()
         return False
 
-# Инициализируем компоненты при запуске
 components_initialized = initialize_components()
 
 def cleanup_video_capture():
@@ -96,13 +79,13 @@ def initialize_video_source(source_type, video_path=None):
         camera_index = 0
         cap = cv2.VideoCapture(camera_index)
         if cap.isOpened():
-            print(f"✅ Камера найдена (индекс {camera_index})")
+            print(f"Камера найдена (индекс {camera_index})")
             cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
             cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
             cap.set(cv2.CAP_PROP_FPS, 25)
             return True
         else:
-            print("❌ Не удалось найти работающую камеру")
+            print("Не удалось найти работающую камеру")
             return False
         
     elif source_type == 'video_file' and video_path:
@@ -110,15 +93,15 @@ def initialize_video_source(source_type, video_path=None):
         if cap.isOpened():
             fps = cap.get(cv2.CAP_PROP_FPS)
             frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-            print(f"✅ Видеофайл загружен: {video_path}")
+            print(f"Видеофайл загружен: {video_path}")
             print(f"   FPS: {fps}, Кадров: {frame_count}")
             return True
         else:
-            print(f"❌ Не удалось открыть видеофайл: {video_path}")
+            print(f"Не удалось открыть видеофайл: {video_path}")
             return False
     
     elif source_type == 'test':
-        print("✅ Тестовый режим активирован")
+        print("Тестовый режим активирован")
         return True
     
     return False
@@ -126,10 +109,10 @@ def initialize_video_source(source_type, video_path=None):
 def process_video_stream():
     global processing, current_frame, current_metrics, video_source, cap
     
-    print(f"🎥 Запуск обработки видео. Источник: {video_source}")
+    print(f"Запуск обработки видео. Источник: {video_source}")
     
     if not initialize_video_source(video_source, current_video_path):
-        print("❌ Не удалось инициализировать источник видео")
+        print("Не удалось инициализировать источник видео")
         processing = False
         return
     
@@ -146,10 +129,10 @@ def process_video_stream():
                     if video_source == 'video_file':
                         # Перезапускаем видеофайл
                         cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
-                        print("🔄 Перезапуск видеофайла")
+                        print("Перезапуск видеофайла")
                         continue
                     else:
-                        print("❌ Не удалось получить кадр с камеры")
+                        print("Не удалось получить кадр с камеры")
                         break
                 
                 frame = cv2.resize(frame, (640, 480))
@@ -159,7 +142,7 @@ def process_video_stream():
                 time.sleep(0.04)  # Имитация 25 FPS
             
             if frame is None:
-                print("❌ Получен пустой кадр")
+                print("Получен пустой кадр")
                 continue
             
             # Обработка кадра
@@ -239,24 +222,24 @@ def process_video_stream():
                 if success:
                     current_frame = encoded_image.tobytes()
                 else:
-                    print("❌ Ошибка кодирования кадра")
+                    print("Ошибка кодирования кадра")
             
             frame_count += 1
             
             # Логируем каждые 5 секунд
             current_time = time.time()
             if current_time - last_log_time >= 5:
-                print(f"📊 Статистика: кадров {frame_count}, людей {len(tracks)}, нарушений {len(real_violations)}")
+                print(f"Статистика: кадров {frame_count}, людей {len(tracks)}, нарушений {len(real_violations)}")
                 last_log_time = current_time
                 
         except Exception as e:
-            print(f"❌ Ошибка обработки кадра: {e}")
+            print(f"Ошибка обработки кадра: {e}")
             import traceback
             traceback.print_exc()
             time.sleep(0.1)
     
     cleanup_video_capture()
-    print("⏹️ Обработка видео остановлена")
+    print("Обработка видео остановлена")
 
 def draw_metrics_on_frame(frame, metrics, zone_type):
     """Рисует метрики на кадре"""
@@ -296,7 +279,7 @@ def generate_test_frame(frame_count):
     for i in range(0, frame.shape[0], 50):
         cv2.line(frame, (0, i), (frame.shape[1], i), (50, 50, 50), 1)
     
-    # Движущиеся объекты (люди) - создаем реалистичные прямоугольники
+    # Движущиеся объекты (люди)
     objects = [
         {'pos': (100 + int(frame_count * 2) % 400, 100), 'size': (40, 80), 'color': (0, 255, 0), 'id': 1},
         {'pos': (300, 150 + int(frame_count * 1.5) % 200), 'size': (50, 100), 'color': (255, 0, 0), 'id': 2},
@@ -308,13 +291,13 @@ def generate_test_frame(frame_count):
         x, y = obj['pos']
         w, h = obj['size']
         
-        # Рисуем тело (прямоугольник)
+        # Тело (прямоугольник)
         cv2.rectangle(frame, (x, y), (x + w, y + h), obj['color'], -1)
         
-        # Рисуем контур
+        # Контур
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 255), 2)
         
-        # Добавляем ID
+        # ID
         cv2.putText(frame, f"ID:{obj['id']}", (x + 5, y + 20), 
                    cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
         
@@ -367,7 +350,7 @@ def get_current_frame():
         return jsonify({'success': False, 'error': 'No frame available'})
     
     except Exception as e:
-        print(f"❌ Ошибка в API current_frame: {e}")
+        print(f"Ошибка в API current_frame: {e}")
         return jsonify({'success': False, 'error': str(e)})
 
 @app.route('/api/start_processing', methods=['POST'])
@@ -561,9 +544,9 @@ def test_detection():
         return jsonify({'success': False, 'error': str(e)})
 
 if __name__ == '__main__':
-    print("🚀 Запуск системы анализа социальной дистанции")
+    print("Запуск системы анализа социальной дистанции")
     print("=" * 50)
-    print("📊 Доступные endpoints:")
+    print("Доступные endpoints:")
     print("  http://localhost:5000 - Web интерфейс")
     print("  http://localhost:5000/api/current_frame - Текущий кадр с метриками")
     print("  http://localhost:5000/api/health - Статус системы")
