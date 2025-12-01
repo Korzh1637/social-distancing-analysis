@@ -7,7 +7,6 @@ import os
 
 def check_requirements():
     """Проверка и установка зависимостей"""
-    print("Проверка зависимостей...")
     
     requirements = [
         "streamlit>=1.28.0",
@@ -53,12 +52,10 @@ def check_requirements():
 
 def download_yolo_model():
     """Загрузка модели YOLO если отсутствует"""
-
-    print("\nПроверка модели YOLOv8...")
     
     model_path = "yolov8n.pt"
     if not os.path.exists(model_path):
-        print("Загрузка YOLOv8n модели...")
+        print("Загрузка YOLOv8n")
         try:
             from ultralytics import YOLO
             model = YOLO('yolov8n.pt')
@@ -73,7 +70,6 @@ def download_yolo_model():
 
 def create_directories():
     """Создание необходимых директорий"""
-    print("\nСоздание структуры проекта...")
     
     directories = [
         "core",
@@ -86,12 +82,9 @@ def create_directories():
         if not os.path.exists(directory):
             os.makedirs(directory)
             print(f"Success: Создана директория: {directory}")
-        else:
-            print(f"Success: Директория существует: {directory}")
 
 def test_system():
     """Тестирование системы после установки"""
-    print("\nТестирование системы...")
     
     try:
         from core.detector import PeopleDetector
@@ -153,8 +146,7 @@ def main():
     print("\nСледующие шаги:")
     print("1. Запустите приложение: python app.py")
     print("2. Выберите источник видео в боковой панели")
-    print("3. Настройте параметры детекции")
-    print("4. Нажмите 'Запуск обработки'")
+    print("3. Нажмите 'Запуск обработки'")
 
 if __name__ == "__main__":
     main()
