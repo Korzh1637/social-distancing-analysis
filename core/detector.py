@@ -42,8 +42,7 @@ class PeopleDetector:
         """Моковые детекции для тестирования когда модель не доступна"""
         height, width = frame.shape[:2]
         
-        # Создаем несколько тестовых детекций
-        detections = []
+        detections = [] # Тестовые детекции
         
         # Центральная детекция
         center_x, center_y = width // 2, height // 2
@@ -56,7 +55,7 @@ class PeopleDetector:
             'class_name': 'person'
         })
         
-        # Несколько случайных детекций
+        # Случайные детекции
         for i in range(2):
             x1 = np.random.randint(0, width - 100)
             y1 = np.random.randint(0, height - 200)

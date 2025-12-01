@@ -78,7 +78,6 @@ class ContextualZoneAnalyzer:
                 with open(self.config_path, 'r', encoding='utf-8') as f:
                     return json.load(f)
             else:
-                # Создаем директорию если не существует
                 os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
                 with open(self.config_path, 'w', encoding='utf-8') as f:
                     json.dump(default_config, f, indent=2, ensure_ascii=False)

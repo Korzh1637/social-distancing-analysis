@@ -115,7 +115,7 @@ class EventLogger:
         self._load_existing_logs()
     
     def _ensure_log_directory(self):
-        """Создает директорию для логов, если ее не существует"""
+        """Создает директорию для логов"""
         os.makedirs(os.path.dirname(self.log_file), exist_ok=True)
     
     def _load_existing_logs(self):
@@ -154,7 +154,6 @@ class EventLogger:
                 event['suppressed'] = True
                 event['suppression_reason'] = "Частое ложное срабатывание"
         
-        # сохранение в файл
         try:
             with open(self.log_file, 'a', encoding='utf-8') as f:
                 f.write(json.dumps(event, ensure_ascii=False) + '\n')
